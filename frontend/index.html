@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QuizMaster — Role-Based Quiz App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Quiz<span>Master</span></div>
+    <div class="user-badge" id="header-user" style="display:none">
+      <strong id="header-username"></strong>
+      <span id="header-role" style="color:var(--muted)"></span>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <!-- PAGE: LANDING -->
+  <div class="page active" id="page-landing">
+    <div class="landing-inner">
+      <p class="landing-eyebrow">Java Mini Project</p>
+      <h1 class="landing-title">Role-Based<br/><em>Online Quiz</em><br/>Application</h1>
+      <p class="landing-sub">A console-to-web app built with Core Java &amp; MongoDB.<br/>Choose your role to get started.</p>
+      <div class="role-cards">
+        <div class="role-card admin" onclick="showPage('page-admin-auth')">
+          <div class="role-icon">&#x1F6E1;&#xFE0F;</div>
+          <h3>Admin</h3>
+          <p>Manage questions &amp; view database</p>
+        </div>
+        <div class="role-card participant" onclick="showPage('page-participant-auth')">
+          <div class="role-icon">&#x1F393;</div>
+          <h3>Participant</h3>
+          <p>Register, take quiz &amp; view scores</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: ADMIN AUTH -->
+  <div class="page" id="page-admin-auth">
+    <div class="auth-wrap">
+      <div class="auth-card">
+        <div class="auth-back" onclick="showPage('page-landing')">&#8592; Back</div>
+        <h2 class="auth-title">Admin Login</h2>
+        <p class="auth-sub">Default credentials: admin / admin123</p>
+        <div class="alert" id="admin-alert"></div>
+        <div class="field">
+          <label>Username</label>
+          <input type="text" id="admin-username" placeholder="admin" value="admin"/>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="admin-password" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" value="admin123"/>
+        </div>
+        <button id="admin-login-btn" class="btn btn-primary">Sign In as Admin</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: PARTICIPANT AUTH -->
+  <div class="page" id="page-participant-auth">
+    <div class="auth-wrap">
+      <div class="auth-card">
+        <div class="auth-back" onclick="showPage('page-landing')">&#8592; Back</div>
+        <h2 class="auth-title">Participant</h2>
+        <p class="auth-sub">Login or create a new account.</p>
+        <div class="tab-row">
+          <div class="tab active" id="tab-login"    onclick="switchTab('login')">Login</div>
+          <div class="tab"        id="tab-register" onclick="switchTab('register')">Register</div>
+        </div>
+        <div class="alert" id="participant-alert"></div>
+        <div class="field">
+          <label>Username</label>
+          <input type="text" id="p-username" placeholder="Your username"/>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="p-password" placeholder="Your password"/>
+        </div>
+        <button class="btn btn-primary" id="p-auth-btn" onclick="participantAuth()">Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: ADMIN DASHBOARD -->
+  <div class="page" id="page-admin-dashboard">
+    <div class="dash-wrap">
+      <div class="dash-header">
+        <h2>Admin Dashboard</h2>
+        <p>Manage quiz questions and monitor the database.</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Total Questions</div>
+          <div class="stat-value" id="stat-questions">&#8212;</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Participants</div>
+          <div class="stat-value" id="stat-users">&#8212;</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Quiz Attempts</div>
+          <div class="stat-value" id="stat-attempts">&#8212;</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Add New Question</span>
+        </div>
+        <div class="panel-body">
+          <div class="alert" id="add-q-alert"></div>
+          <div class="field">
+            <label>Question Text</label>
+            <input type="text" id="q-text" placeholder="e.g. What keyword is used to inherit in Java?"/>
+          </div>
+          <div class="add-q-grid">
+            <div class="field"><label>Option A</label><input type="text" id="q-a" placeholder="First option"/></div>
+            <div class="field"><label>Option B</label><input type="text" id="q-b" placeholder="Second option"/></div>
+            <div class="field"><label>Option C</label><input type="text" id="q-c" placeholder="Third option"/></div>
+            <div class="field"><label>Option D</label><input type="text" id="q-d" placeholder="Fourth option"/></div>
+          </div>
+          <div class="field" style="max-width:200px">
+            <label>Correct Answer</label>
+            <select id="q-answer">
+              <option value="">Select...</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" style="width:auto;padding:0.75rem 2rem" onclick="addQuestion()">Add Question</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">All Questions</span>
+          <button class="btn btn-secondary" style="padding:0.4rem 0.9rem;font-size:0.8rem" onclick="loadAdminQuestions()">Refresh</button>
+        </div>
+        <div class="panel-body" style="padding:0">
+          <ul class="q-list" id="admin-q-list" style="padding:0 1.5rem"></ul>
+          <div id="admin-q-empty" class="empty-state" style="display:none">
+            <div class="empty-icon">&#x1F4ED;</div>
+            <p>No questions yet. Add your first question above.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: PARTICIPANT DASHBOARD -->
+  <div class="page" id="page-participant-dashboard">
+    <div class="dash-wrap">
+      <div class="dash-header">
+        <h2>Welcome back, <span id="p-display-name"></span>!</h2>
+        <p>Ready to test your knowledge?</p>
+      </div>
+      <div class="action-cards">
+        <div class="action-card" onclick="startQuiz()">
+          <div class="icon">&#x1F680;</div>
+          <h3>Start Quiz</h3>
+          <p>60-second timed challenge</p>
+        </div>
+        <div class="action-card" onclick="showMyScores()">
+          <div class="icon">&#x1F4CA;</div>
+          <h3>My Scores</h3>
+          <p>View your attempt history</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: QUIZ -->
+  <div class="page" id="page-quiz">
+    <div class="quiz-wrap">
+      <div class="quiz-progress-bar-wrap">
+        <div class="quiz-meta">
+          <span id="q-counter">Question 1 of 5</span>
+          <span id="q-answered">0 answered</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="quiz-timer" id="quiz-timer">
+        &#x23F1; <span id="timer-display">60</span>s remaining
+      </div>
+      <div class="question-card">
+        <div class="q-number" id="q-num-label">QUESTION 1</div>
+        <div class="q-body"   id="q-body-text">Loading...</div>
+        <div class="options-grid" id="options-grid"></div>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn btn-secondary" id="btn-prev"   onclick="prevQ()"     style="display:none">&#8592; Previous</button>
+        <button class="btn btn-primary"   id="btn-next"   onclick="nextQ()"     style="width:auto;padding:0.75rem 2rem">Next &#8594;</button>
+        <button class="btn btn-danger"    id="btn-submit" onclick="submitQuiz()" style="display:none;width:auto;padding:0.75rem 2rem">Submit Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: RESULT -->
+  <div class="page" id="page-result">
+    <div class="result-wrap">
+      <div class="result-circle">
+        <div class="result-score" id="res-score">0</div>
+        <div class="result-total" id="res-total">of 0</div>
+      </div>
+      <div class="result-grade" id="res-grade">&#8212;</div>
+      <div class="result-msg"   id="res-msg">&#8212;</div>
+      <div class="panel" style="text-align:left;margin-bottom:1.5rem">
+        <div class="panel-header"><span class="panel-title">Attempt History</span></div>
+        <div style="padding:0">
+          <table class="history-table">
+            <thead><tr><th>Attempt</th><th>Score</th><th>Grade</th></tr></thead>
+            <tbody id="history-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="showPage('page-participant-dashboard')">Back to Dashboard</button>
+    </div>
+  </div>
+
+</div><!-- .app -->
+<script src="script.js"></script>
+</body>
+</html>

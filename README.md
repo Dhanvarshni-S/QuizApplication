@@ -20,39 +20,24 @@ Modular Design
 Clean package structure for easy maintenance and scalability.
 Interface & OOP
 Use of interfaces and inheritance for flexible role management.
+
 Technologies Used
 Programming Language: Java (Core Java)
+
 Database: MongoDB
+
 Concepts Implemented:
+
 Inheritance
+
 Threads
+
 Interfaces
+
 Exception Handling
+
 Packages
+
 Object-Oriented Programming (OOP)
-QuizApp/
-│
-├── frontend/                   # Basic frontend
-│   ├── index.html
-│   ├── script.js
-│   └── styles.css
-│
-├── lib/                        # Required libraries
-│   ├── bson-4.11.1.jar
-│   ├── mongodb-driver-core-4.x.jar
-│   └── mongodb-driver-sync-4.x.jar
-│
-└── src/                        # Java backend
-    ├── Admin.java
-    ├── Handlers.java
-    ├── Main.java
-    ├── MongoDBConnection.java
-    ├── Participant.java
-    ├── Question.java
-    ├── Quiz.java
-    ├── QuizOperations.java
-    ├── Server.java
-    ├── SimpleServer.java
-    ├── TestDB.java
-    ├── TimerThread.java
-    └── User.java
+
+<img width="552" height="620" alt="image" src="https://github.com/user-attachments/assets/bb17d01a-0cf0-4637-b65a-d38a55a01c0e" />
